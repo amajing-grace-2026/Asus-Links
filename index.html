@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Link ASUS</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #fff; --text: #1b1f24; --muted: #5f6b7a; --line: #e3e6ea;
+    --accent: #0b5cff; --accent-soft: #e8efff; --ok: #1a7f37;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f1216; --card: #171b21; --text: #e8ebef; --muted: #96a0ad; --line: #2a3039;
+      --accent: #6c9bff; --accent-soft: #1c2740; --ok: #4ac26b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  input[type=search] { width: 100%; padding: 11px 14px; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--card); color: var(--text); font-size: 15px; margin-bottom: 22px; }
+  input[type=search]:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  section { margin-bottom: 26px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 4px; }
+  .desc { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+  .list { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 0; }
+  .info { flex: 1; min-width: 0; }
+  .name { font-weight: 600; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent); margin-left: 6px; vertical-align: 2px; }
+  .url { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .btns { display: flex; gap: 6px; flex-shrink: 0; }
+  .btn { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px;
+    padding: 6px 11px; font-size: 13px; cursor: pointer; text-decoration: none; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.open { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.open:hover { opacity: .9; color: #fff; }
+  .btn.done { color: var(--ok); border-color: var(--ok); }
+  .empty { color: var(--muted); text-align: center; padding: 20px; display: none; }
+  footer { color: var(--muted); font-size: 12.5px; margin-top: 30px; text-align: center; }
+  @media (max-width: 520px) { .url { display: none; } .btn { padding: 6px 9px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Link ASUS</h1>
+  <p class="sub">Semua link kerjaan ASUS di satu tempat. Terakhir diupdate <span id="upd"></span>.</p>
+  <input type="search" id="q" placeholder="Cari nama, sales, AP / AGP…" aria-label="Cari link">
+  <div id="out"></div>
+  <p class="empty" id="empty">Tidak ada link yang cocok.</p>
+  <footer>Halaman ini tidak diindeks mesin pencari.</footer>
+</div>
+
+<script>
+/* ===== DATA LINK =====
+   Tambah link baru di sini. Satu grup = satu bagian di halaman.
+   tag: label kecil opsional (mis. "AP", "AGP"). */
+const UPDATED = "25 Nov 2026";
+const GROUPS = [
+  {
+    title: "Katalog Pricelist ASUS",
+    desc: "Versi AP untuk customer/reseller (MSRP, SRP, SDP). Versi AGP untuk partner AGP.",
+    links: [
+      { name: "Victor (utama)", tag: "AP",  url: "https://amajing-grace-2026.github.io/Pricelist-k7x3-ap/" },
+      { name: "Victor (utama)", tag: "AGP", url: "https://amajing-grace-2026.github.io/Pricelist-m4q9-agp/" },
+      { name: "David",   tag: "AP",  url: "https://amajing-grace-2026.github.io/Pricelist-David-ap/" },
+      { name: "David",   tag: "AGP", url: "https://amajing-grace-2026.github.io/Pricelist-David-agp/" },
+      { name: "Kevin",   tag: "AP",  url: "https://amajing-grace-2026.github.io/Pricelist-kevin-ap/" },
+      { name: "Kevin",   tag: "AGP", url: "https://amajing-grace-2026.github.io/Pricelist-kevin-agp/" },
+      { name: "Felicia", tag: "AP",  url: "https://amajing-grace-2026.github.io/Pricelist-Felicia-ap/" },
+      { name: "Felicia", tag: "AGP", url: "https://amajing-grace-2026.github.io/Pricelist-felicia-agp/" },
+      { name: "Siswo",   tag: "AP",  url: "https://amajing-grace-2026.github.io/Pricelist-Siswo-ap/" },
+      { name: "Siswo",   tag: "AGP", url: "https://amajing-grace-2026.github.io/Pricelist-siswo-agp/" }
+    ]
+  },
+  {
+    title: "PSI",
+    desc: "Cek stok dealer dan stok & harga distributor.",
+    links: [
+      { name: "Cek Stok Dealer (PSI - Dealer)", url: "https://amajing-grace-2026.github.io/PSI---Dealer/" },
+      { name: "Stok & Harga Distributor (PSI - Search)", url: "https://amajing-grace-2026.github.io/PSI---Search/" }
+    ]
+  }
+];
+/* ===== akhir data ===== */
+
+const out = document.getElementById("out");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+document.getElementById("upd").textContent = UPDATED;
+
+function render(q) {
+  q = q.trim().toLowerCase();
+  let shown = 0;
+  out.innerHTML = GROUPS.map(g => {
+    const items = g.links.filter(l => !q || [g.title, l.name, l.tag || "", l.url].join(" ").toLowerCase().includes(q));
+    shown += items.length;
+    if (!items.length) return "";
+    return `<section><h2>${esc(g.title)}</h2>${g.desc ? `<p class="desc">${esc(g.desc)}</p>` : ""}
+      <div class="list">${items.map(l => `
+        <div class="row">
+          <div class="info">
+            <div class="name">${esc(l.name)}${l.tag ? `<span class="tag">${esc(l.tag)}</span>` : ""}</div>
+            <div class="url">${esc(l.url)}</div>
+          </div>
+          <div class="btns">
+            <button class="btn copy" data-url="${esc(l.url)}">Salin</button>
+            <a class="btn open" href="${esc(l.url)}" target="_blank" rel="noopener">Buka</a>
+          </div>
+        </div>`).join("")}</div></section>`;
+  }).join("");
+  document.getElementById("empty").style.display = shown ? "none" : "block";
+}
+
+out.addEventListener("click", async e => {
+  const b = e.target.closest(".copy");
+  if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.url); }
+  catch { const t = document.createElement("textarea"); t.value = b.dataset.url; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); }
+  b.textContent = "Tersalin ✓"; b.classList.add("done");
+  setTimeout(() => { b.textContent = "Salin"; b.classList.remove("done"); }, 1500);
+});
+
+document.getElementById("q").addEventListener("input", e => render(e.target.value));
+render("");
+</script>
+</body>
+</html>
